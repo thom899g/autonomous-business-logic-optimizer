@@ -1,0 +1,42 @@
+version: '3'
+services:
+  api_gateway:
+    image: ${IMAGE_NAME}-api-gateway:${VERSION}
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+
+  message_broker:
+    image: rabbitmq:rabbitmq-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  rme:
+    image: ${IMAGE_NAME}-rme:${VERSION}
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  ra:
+    image: ${IMAGE_NAME}-ra:${VERSION}
+    ports:
+      - "8080:8080"
+
+  mam:
+    image: ${IMAGE_NAME}-mam:${VERSION}
+    environment:
+      - TWITTER_API_KEY=your_key
+      - FACEBOOK_API_SECRET=your_secret
+
+  ers:
+    image: ${IMAGE_NAME}-ers:${VERSION}
+    ports:
+      - "5000:5000"
+
+  dashboard:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000")
